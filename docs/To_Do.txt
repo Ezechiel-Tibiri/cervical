@@ -1,0 +1,27 @@
+
+Grandes étapes du tavail à faire
+
+1- Acquisition de l'espace de travail
+		Clonage du repository grâce au lien Github
+
+2- Codage ou scripts
+
+	a- Script1: Lien de téléchargement des séquences de travail
+			Projet PRJNA240260
+			Outil SRA tools
+
+	b- Script2: Extraction de 1000 reads dans chaque échantillon pour la constitution du jeu de données
+
+	c- Script3: Contrôle qualité
+			Outil Fastqc
+
+	d- Script4: Mapping des reads avec le génome de référence (nouvelle version)
+			Outil Bwa-mem
+		    Refaire une contrôle qualité
+			Outil Multiqc
+
+	e- Script5: Variant calling or variant discovery
+			Outil GATK
+
+	f- SCript6: Filtering
+			Outil AWK
