@@ -9,6 +9,8 @@ Grandes étapes du tavail à faire
 	a- Script1: Lien de téléchargement des séquences de travail
 			Projet PRJNA240260
 			Outil SRA tools
+The SRA Toolkit provides 64-bit binary installations for the Ubuntu and CentOS Linux distributions, for Mac OS X, and for Windows.
+ https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit
 
 	b- Script2: Extraction de 1000 reads dans chaque échantillon pour la constitution du jeu de données
 
