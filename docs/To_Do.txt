@@ -7,10 +7,10 @@ Grandes étapes du tavail à faire
 2- Codage ou scripts
 
 	a- Script1: Lien de téléchargement des séquences de travail
-			Projet PRJNA240260
+			Projet PRJNA240260 (https://www.ncbi.nlm.nih.gov/)
 			Outil SRA tools
 The SRA Toolkit provides 64-bit binary installations for the Ubuntu and CentOS Linux distributions, for Mac OS X, and for Windows.
- https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit
+ https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit. You can also used `sudo apt install sra-toolkit` to install this package.
 
 	b- Script2: Extraction de 1000 reads dans chaque échantillon pour la constitution du jeu de données
 
