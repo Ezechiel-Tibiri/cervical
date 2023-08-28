@@ -1,4 +1,4 @@
-
+wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-win64.zipwget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-win64.zip
 Grandes étapes du tavail à faire
 
 1- Acquisition de l'espace de travail
