@@ -16,6 +16,17 @@ The SRA Toolkit provides 64-bit binary installations for the Ubuntu and CentOS L
 
 	c- Script3: Contrôle qualité
 			Outil Fastqc
+# Créez l'environnement Conda : Exécutez la commande suivante pour créer un nouvel environnement Conda à partir du fichier YAML :
+
+conda env create -f env/fastqc-env.yaml
+
+Activez l'environnement : Une fois que l'environnement est créé, vous pouvez l'activer avec la commande :
+
+conda activate fastqc-env
+
+# Verifier l'installation avec la commande :
+
+fastqc --version
 
 	d- Script4: Mapping des reads avec le génome de référence (nouvelle version)
 			Outil Bwa-mem
