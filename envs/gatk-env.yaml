@@ -1,0 +1,8 @@
+name: gatk-env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - gatk
+prefix: /home/name/anaconda3/envs/gatk-env
