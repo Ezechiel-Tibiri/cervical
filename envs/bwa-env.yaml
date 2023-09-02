@@ -1,0 +1,10 @@
+name: bwa-env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - bwa
+  - multiqc
+  - samtools
+prefix: /home/name/anaconda3/envs/bwa-env
