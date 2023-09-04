@@ -7,4 +7,6 @@ dependencies:
   - bwa
   - multiqc
   - samtools
+  - picard
+  - igv
 prefix: /home/name/anaconda3/envs/bwa-env
