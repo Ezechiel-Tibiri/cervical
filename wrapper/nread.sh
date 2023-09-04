@@ -1,11 +1,9 @@
-
-# This script concern the second step "reading of 100 reads"
 #!/bin/bash
-fastq-dump $sra | head -100
+# This script concern the second step "reading of 100 reads"
+fastq-dump $sra | head -400
 
 
 # This script concern the third step "quality control"
-#!/bin/bash
 i=9661144
 while [ $i -le 9661173 ]; do
 SRR$i
