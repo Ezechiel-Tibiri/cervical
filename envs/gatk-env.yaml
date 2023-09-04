@@ -5,4 +5,9 @@ channels:
   - defaults
 dependencies:
   - gatk
+  - bcftools
+  - bedtools
+  - minimap2
+  - sniffles
+  - breakdancer
 prefix: /home/name/anaconda3/envs/gatk-env
