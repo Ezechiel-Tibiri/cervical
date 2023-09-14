@@ -9,13 +9,15 @@ wget "downloading link of human Refseq" > Refseq.zip
 bwa index Refseq.zip
 #Index le fichier "Refseq.zip" comme référence
 
-BWA_DIR="~/Documents/2023/Ian/RESULTS/BWA"
+DIR_FASTQ="/home/ianlucas/DATA"
+BWA_DIR="/home/ianlucas/Documents/2023/Ian/RESULTS/BWA"
+mkdir -p $DIR_FASTQ
 mkdir -p $BWA_DIR
 # work directory 
 
 cd $BWA_DIR
 
-bwa mem -t 8 Refseq.zip $DIR_FASTQ/*.fastq.gz | samtools sort -o $BWA_DIR/bwa.sorted.bam
+bwa mem -t 8 Refseq.zip $DIR_FASTQ/*.fastq | samtools sort -o $BWA_DIR/bwa.sorted.bam
 #"bwa mem" permit the mapping, "samtool" permit to convert the file obtained in extension ".sam" after mapping, in a file ".bam"; which use less stockage space 
 
 multiqc
