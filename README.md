@@ -18,3 +18,126 @@ Although the rates of cervical squamous cell carcinoma have been declining, the 
 bined with new sequencing diagnostics. We present whole-exome sequencing results from 15 cervical adenocarcinomas and paired normal samples from Hong Kong Chinese women. These data revealed a heterogeneous mutation spectrum and identified several frequently altered genes including FAT1, ARID1A, ERBB2 and PIK3CA. Exome sequencing identified human papillomavirus (HPV) sequences in 13 tumors in which the HPV genome might have integrated into and hence disrupted the functions of certain exons, raising the possibility that HPV integration can alter pathways other than p53 and pRb. Together, these provisionary data suggest the potential for individualized therapies for cervical adenocarcinoma based on
 genomic information.
 Keywords: cervical adenocarcinoma, genomic alternations, HPV
+
+
+# STEPS
+Our work is divided in 6 steps. For each of them, at least one application (which have the function needed for the stage) is installed and a script is written to make the application use specific function.
+
+#STEP 1 : Downloading of genomic sequencies with the application "SRA Tool" 
+We have two sub-steps mentioned above in the title. 
+	First, installation of "SRA Tool" : 
+
+* wget https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-win64.zip
+	"wget" is a command line to download file in internet. (Web get)
+	"https://ftp-trace.ncbi.nlm.nih.gov/sra/sdk/current/sratoolkit.current-win64.zip" is the link to download sratool kit. But there are differents links, which are adapted to different exploitation system. Then the right link depend on the exploitation system. You can choose the link in https://github.com/ncbi/sra-tools/wiki/02.-Installing-SRA-Toolkit#3-for-convenience-and-to-show-you-where-the-binaries-are-append-the-path-to-the-binaries-to-your-path-environment-variable
+	The obtained file should be "sratoolkit.tar.gz" or something like it. (Depend on which link has been used)
+
+* tar -vxzf sratoolkit.tar.gz
+	"tar" is a command line to extract files. The following terms are some option added to the command line.
+	"-v" is used to show details of extraction process
+	"-x" is used to execute extraction
+	"-z" is used when file in under gzip format
+	"-f sratoolkit.tar.gz" 
+
+* export PATH=$PATH:/home/ianlucas/apps/sratoolkit/bin
+        "export PATH=$PATH:" is used to have access to a pathway, without precise it in the other command line
+        "/home/ianlucas/apps/sratoolkit/bin" is the pathway that lead to functions like "fastq dump" which will be used.
+
+
+        Second, downloading of genome data :
+
+#!/bin/bash
+
+cd cervical/data/
+# Read SRA identifiers from a text file
+sra_ids=$(cat cervical/data/SRR_Acc_List.txt)
+#prefetch $sra
+
+#pf=$(prefetch $sra)
+#fasterq-dump $pf --split-3
+# Define the number of processes to run in parallel
+num_parallel=16
+
+# Function to download and convert an SRA sequence into FASTQ
+download_sra() {
+    sra_id=$1
+    retries=5
+
+    while [ $retries -gt 0 ]; do
+        echo "Attempting to download $sra_id..."
+
+        # Use prefetch to first download the SRA file (optional)
+        prefetch $sra_id
+        if [ $? -eq 0 ]; then
+            echo "Successfully downloaded $sra_id. Converting now..."
+
+            # Use fastq-dump to convert the SRA file into FASTQ
+            fastq-dump --split-3 --gzip $sra_id
+            if [ $? -eq 0 ]; then
+                echo "Successfully converted $sra_id."
+                break
+            else
+                echo "Error while converting $sra_id. Retrying..."
+                retries=$((retries-1))
+            fi
+        else
+            echo "Error while downloading $sra_id. Retrying..."
+            retries=$((retries-1))
+        fi
+
+        # Wait for 10 seconds before retrying
+        sleep 10
+    done
+
+    if [ $retries -eq 0 ]; then
+        echo "Failed to download and convert $sra_id after multiple attempts."
+    fi
+}
+
+# Export the function so it can be used by GNU parallel
+export -f download_sra
+
+# Use GNU parallel to execute the downloads in parallel
+echo "$sra_ids" | parallel -j $num_parallel download_sra
+
+
+
+* sra=$(cat cervical/data/SRR_Acc_List.txt)
+  prefetch $sra
+	"sra" is the variable name
+	"cat" have the function to present the contained of a text like "SRR_Acc_List.txt" as a list. Thus we have one line for each genome. All the function use on "sra" will work as boucle, until the last line of the list. That possible because we know the code of all the genome in our study and these codes are successives.
+	"SRR_Acc_List.txt" is a list of the genome to analyze
+	"prefetch" permit to download the genome whom the name are in "SRR_Acc_List.txt"
+
+* pf=$(prefetch $sra)
+  fasterq-dump $pf --split-3
+	"pf" is a variable used for avoiding to write "prefetch $sra"
+	"fasterq-dump" make the quality control
+
+
+#STEP 2 : Quality control with "bioconda"
+Since this step, used applications come from some environments. Each environment contain specific application. Then according the step, a specific environment will be used.
+That avoid to hae to download for each steps needed applications.
+For this step, the environment is called "fastqc-env" ; it contain "bioconda"
+
+The calling is as following : 
+"cd cervical/envs"
+	"envs" is the repertory containning environments. In this repertory, we write :
+"conda activate fastqc-env"
+	To activate the "fastqc-env" and have access to applications that will be used for the quality control. 
+
+
+
+
+#!/bin/bash
+
+# work directories
+DIR_FASTQ="/home/lucas/DATA"
+QC_DIR="~/Documents/2023/Ian/RESULTS/QC"
+mkdir -p $QC_DIR
+# This script concern the "quality control"
+cd $QC_DIR
+# This command make quality control by using 12 core and simultanatly report the evolution of the script running thank's to " > sdout .log 2>&1". The path that leads to the data has been associated to the variable "DIR_FASTQ"
+fastqc $DIR_FASTQ/*.fastq.gz --threads 12 > sdout.log 2>&1
+
+echo "fastqc run successfully"
