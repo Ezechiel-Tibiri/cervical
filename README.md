@@ -114,6 +114,7 @@ We have two sub-steps mentioned above in the title.
 	"fasterq-dump" make the quality control
 
 
+
 #STEP 2 : Quality control with "bioconda"
 Since this step, used applications come from some environments. Each environment contain specific application. Then according the step, a specific environment will be used.
 That avoid to hae to download for each steps needed applications.
@@ -130,13 +131,13 @@ The calling is as following :
 
 #!/bin/bash
 
-# work directories
+#work directories
 DIR_FASTQ="/home/lucas/DATA"
 QC_DIR="~/Documents/2023/Ian/RESULTS/QC"
 mkdir -p $QC_DIR
-# This script concern the "quality control"
+#This script concern the "quality control"
 cd $QC_DIR
-# This command make quality control by using 12 core and simultanatly report the evolution of the script running thank's to " > sdout .log 2>&1". The path that leads to the data has been associated to the variable "DIR_FASTQ"
+#This command make quality control by using 12 core and simultanatly report the evolution of the script running thank's to " > sdout .log 2>&1". The path that leads to the data has been associated to the variable "DIR_FASTQ"
 fastqc $DIR_FASTQ/*.fastq.gz --threads 12 > sdout.log 2>&1
 
 echo "fastqc run successfully"
