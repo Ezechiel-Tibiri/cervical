@@ -45,21 +45,20 @@ We have two sub-steps mentioned above in the title.
 
 
         Second, downloading of genome data :
+ #!/bin/bash
 
-#!/bin/bash
+ cd cervical/data/
+ # Read SRA identifiers from a text file
+ sra_ids=$(cat cervical/data/SRR_Acc_List.txt)
+ #prefetch $sra
 
-cd cervical/data/
-# Read SRA identifiers from a text file
-sra_ids=$(cat cervical/data/SRR_Acc_List.txt)
-#prefetch $sra
+ #pf=$(prefetch $sra)
+ #fasterq-dump $pf --split-3
+ #Define the number of processes to run in parallel
+ num_parallel=16
 
-#pf=$(prefetch $sra)
-#fasterq-dump $pf --split-3
-# Define the number of processes to run in parallel
-num_parallel=16
-
-# Function to download and convert an SRA sequence into FASTQ
-download_sra() {
+ #Function to download and convert an SRA sequence into FASTQ
+ download_sra() {
     sra_id=$1
     retries=5
 
@@ -92,7 +91,7 @@ download_sra() {
     if [ $retries -eq 0 ]; then
         echo "Failed to download and convert $sra_id after multiple attempts."
     fi
-}
+ }
 
 # Export the function so it can be used by GNU parallel
 export -f download_sra
